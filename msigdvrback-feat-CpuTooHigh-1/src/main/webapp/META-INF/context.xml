@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--  -->
+<Context displayName="MsigDvrBackDS Cloud System" docBase="MsigDvrBackDS" path="/MsigDvrBackDS" workDir="work/Catalina/localhost/MsigDvrBackDS">
+
+<!-- 	<Resource -->
+<!-- 	  name="MsigDvrBackDS" -->
+<!-- 	  auth="Container" -->
+<!-- 	  type="javax.sql.DataSource" -->
+	  
+<!-- 	  username="dvradm" -->
+<!-- 	  password="dvradm" -->
+<!-- 	  driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!-- 	  maxIdle="2" -->
+<!-- 	  maxWait="5000" -->
+<!-- 	  url="jdbc:sqlserver://192.168.5.75;databaseName=dvrdb" -->
+<!-- 	  maxActive="4"/>  -->
+
+<!-- tomcat加密 -->
+<!-- dvradm -->
+<!-- 	<Resource -->
+<!-- 	  name="MsigDvrBackDS" -->
+<!-- 	  auth="Container" -->
+<!-- 	  type="javax.sql.DataSource" -->
+	  
+<!-- 	  factory ="org.apache.tomcat.dbcp.dbcp.ext.EncryptDatasourceFactory" -->
+	  
+<!-- 	  username="321DF18A920776F6BD983B8DE33C325A" -->
+<!-- 	  password="321DF18A920776F6BD983B8DE33C325A" -->
+<!-- 	  driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!-- 	  maxIdle="2" -->
+<!-- 	  maxWait="5000" -->
+<!-- 	  url="jdbc:sqlserver://192.168.5.75;databaseName=dvrdb" -->
+<!-- 	  maxActive="4"/>  -->
+	  
+	  
+<!-- dvrapp -->	  
+<!-- 	  	<Resource -->
+<!-- 	  name="MsigDvrBackDS" -->
+<!-- 	  auth="Container" -->
+<!-- 	  type="javax.sql.DataSource" -->
+	  
+<!-- 	  factory ="org.apache.tomcat.dbcp.dbcp.ext.EncryptDatasourceFactory" -->
+	  
+<!-- 	  username="EBFD07A372042889E71591E8162AD4BA" -->
+<!-- 	  password="EBFD07A372042889E71591E8162AD4BA" -->
+<!-- 	  driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!-- 	  maxIdle="2" -->
+<!-- 	  maxWait="5000" -->
+<!-- 	  url="jdbc:sqlserver://192.168.5.75;databaseName=dvrdb" -->
+<!-- 	  maxActive="4"/>  -->
+	  
+</Context> 
+

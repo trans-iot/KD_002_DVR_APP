@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tw.msigDvrBack.manual.TbSqlManualMapper" >
+
+	<select id="selectMaxCrdateWithTbSysUserPwdHis" parameterType="java.lang.String" resultMap="tbSysUserPwdHisResult">
+		SELECT MAX(cr_date) AS chg_last_date
+		FROM tb_sys_user_pwd_his
+		WHERE sys_user_id = #{sysUserId};
+	</select>
+    <resultMap id="tbSysUserPwdHisResult" type="java.util.Map">
+   	 	<result column="chg_last_date" jdbcType="TIMESTAMP" property="chgLastDate" />
+    </resultMap>
+
+    <select id="fnPublicQueryLookupDscr" parameterType="java.util.Map" resultType="java.lang.String">
+    	select dbo.fn_public_query_lookup_dscr(#{lookupType}, #{lookupCde});
+    </select>
+    
+    
+    <select id="getRandomPwd" resultType="java.lang.String">
+    	select dbo.fn_gen_password_num(8);
+    </select>
+    
+    <parameterMap id="userIdResult" type="java.util.HashMap">
+		<parameter property="pi_cde_type" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pi_cde" jdbcType="VARCHAR"	javaType="java.lang.String" mode="IN" />
+		<parameter property="po_seq" jdbcType="VARCHAR"	javaType="java.lang.String" mode="OUT" />
+		<parameter property="po_err_cde" jdbcType="VARCHAR"	javaType="java.lang.String" mode="OUT" />
+		<parameter property="po_err_msg" jdbcType="VARCHAR"	javaType="java.lang.String" mode="OUT" />
+	</parameterMap>
+    
+    <select id="getUserId" parameterMap="userIdResult" statementType="CALLABLE">
+    	{call pc_getcdseq(?,? ,?,?,?)}
+   	</select>
+	
+	<select id="getCustomerToSendEmail" resultType="map" resultMap="getCustomerToSendEmailResult">
+	    select a.user_id as userId, b.email as email,
+	    CAST(DATEPART(YEAR,DATEADD(MONTH, -1, GETDATE())) AS CHAR(4)) +
+	    RIGHT('0' + RTRIM(CAST(DATEPART(MONTH,DATEADD(MONTH, -1, GETDATE())) AS CHAR(2))),2) AS report_mon
+	    from tb_device a, tb_customer b
+	    where a.user_id != ''
+	    and a.user_id = b.user_id
+	    and b.cust_status != 'S'
+	    and b.register_time &lt; DATEADD(MONTH, datediff(MONTH,0,getdate()),0);
+  	</select>
+    <resultMap id="getCustomerToSendEmailResult" type="java.util.Map">
+        <result column="userId" jdbcType="NVARCHAR" property="userId" />
+        <result column="email" jdbcType="NVARCHAR" property="email" />
+    </resultMap>
+</mapper>

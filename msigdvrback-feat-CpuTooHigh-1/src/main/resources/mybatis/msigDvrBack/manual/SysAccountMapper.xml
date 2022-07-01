@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tw.msigDvrBack.manual.SysAccountMapper" >
+	   
+	<resultMap id="MenuData" type="tw.com.core.menu.MenuData">
+		<result column="SYS_ORDER" jdbcType="VARCHAR" property="sysOrder"/>
+		<result column="SYS_NAME" jdbcType="VARCHAR" property="sysName"/>
+	    <result column="MOD_ORDER" jdbcType="VARCHAR" property="modOrder"/>
+	    <result column="PG_ORDER" jdbcType="VARCHAR" property="pgOrder"/>
+	    <result column="PARENT_pg_proj_id" jdbcType="VARCHAR" property="pmId"/>
+		<result column="PARENT_MOD_NAME" jdbcType="VARCHAR" property="parentModName"/>
+		<result column="PARENT_MOD_ORDER" jdbcType="VARCHAR" property="parentModOrder"/>
+    	<result column="pg_proj_id" jdbcType="VARCHAR" property="modId"/>
+	    <result column="MOD_NAME" jdbcType="VARCHAR" property="modName"/>
+	    <result column="pg_id" jdbcType="VARCHAR" property="pgId"/>
+	    <result column="PG_NAME" jdbcType="VARCHAR" property="pgName"/>
+	    <result column="SYS_USER_ID" jdbcType="VARCHAR" property="sysUserId"/>
+	    <result column="AP_ID" jdbcType="VARCHAR" property="apId"/>
+	</resultMap>
+	
+	<!-- 依據使用者 USER ID 撈取出MenuTree -->
+	<select id="selectMenuBySessionData"  resultMap="MenuData" parameterType="tw.com.core.SessionData" >
+		select
+         (select seq_no from tb_sys_mod where pg_proj_id = mod_prof.p_pg_proj_id) parent_mod_order ,
+         mod_prof.seq_no mod_order ,
+         b.pg_order pg_order ,
+         mod_prof.p_pg_proj_id parent_pg_proj_id ,
+         (select pg_proj_dscr from tb_sys_mod where pg_proj_id = mod_prof.p_pg_proj_id) parent_mod_name ,
+         mod_prof.pg_proj_id pg_proj_id ,
+         mod_prof.pg_proj_dscr mod_name ,
+         b.pg_id ,
+         b.pg_name ,
+         upper(b.sys_user_id) as sys_user_id ,
+         'hci' as ap_id,
+         '雲端後台' as sys_name,
+         1 as sys_order
+      from
+         tb_sys_mod mod_prof ,
+         ( select
+               distinct(pg_prof.pg_id) pg_id ,
+               pg_prof.pg_name pg_name ,
+               pg_prof.pg_proj_id pg_proj_id ,
+               pg_prof.seq_no pg_order , 
+               a.sys_user_id sys_user_id
+           from
+            tb_sys_pg pg_prof ,
+            tb_sys_role role ,
+            ( select
+               role_pg.role_id ,
+               role_pg.pg_id , 
+               user_role.sys_user_id
+              from
+               tb_sys_role_pg_map role_pg ,
+               tb_sys_user_role_map user_role
+              where
+               role_pg.role_id = user_role.role_id
+               and user_role.sys_user_id = #{sysUserId,jdbcType=VARCHAR}
+            ) a
+           where
+            a.pg_id = pg_prof.pg_id
+            and role.role_id = a.role_id
+            and getdate() between role.eff_date and isnull(role.end_date,getdate())
+         ) b
+      where
+         mod_prof.pg_proj_id = b.pg_proj_id
+      order by
+         parent_mod_order, parent_pg_proj_id, mod_order, pg_proj_id, pg_order, pg_id
+	</select>
+	
+	<!-- 依據系統別撈取出MenuTree資料 -->
+	<select id="selectAllMenuTree"  resultMap="MenuData" >
+		select
+			(select seq_no from tb_sys_mod where pg_proj_id = mod_prof.p_pg_proj_id) parent_mod_order ,
+			mod_prof.seq_no mod_order ,
+			pg_prof.seq_no pg_order ,
+			'DVR' as ap_id ,
+			'明台一鍵理賠通知服務會員系統' as sys_name ,
+			1 as SYS_ORDER ,
+			mod_prof.p_pg_proj_id as parent_pg_proj_id ,
+			(select pg_proj_dscr from tb_sys_mod where pg_proj_id = mod_prof.p_pg_proj_id) parent_mod_name ,
+			mod_prof.pg_proj_id as pg_proj_id ,
+			mod_prof.pg_proj_dscr as mod_name ,
+			pg_prof.pg_id ,
+			pg_prof.pg_name,
+			'' as sys_user_id
+		FROM
+			tb_sys_mod mod_prof ,
+			tb_sys_pg pg_prof
+		WHERE
+			mod_prof.pg_proj_id = pg_prof.pg_proj_id
+		ORDER BY
+			parent_mod_order
+			, parent_pg_proj_id, 
+			mod_order,
+			pg_proj_id, 
+			pg_order,
+			pg_id
+	</select>
+	
+	<select id="selectListByRoleId" resultMap="MenuData" parameterType="java.lang.String">
+	  SELECT
+			(SELECT seq_no FROM tb_sys_mod WHERE pg_proj_id = MOD_PROF.p_pg_proj_id) PARENT_MOD_ORDER ,
+			MOD_PROF.seq_no MOD_ORDER ,
+			B.PG_ORDER PG_ORDER ,
+			MOD_PROF.p_pg_proj_id AS PARENT_pg_proj_id ,
+			(SELECT pg_proj_dscr FROM tb_sys_mod WHERE pg_proj_id = MOD_PROF.p_pg_proj_id) PARENT_MOD_NAME ,
+			MOD_PROF.pg_proj_id AS pg_proj_id ,
+			MOD_PROF.pg_proj_dscr AS MOD_NAME ,
+			B.pg_id ,
+			B.PG_NAME ,
+			NULL AS SYS_USER_ID ,
+			'DVR' AS AP_ID,
+			'明台一鍵理賠通知服務會員系統' AS SYS_NAME,
+			1 AS SYS_ORDER
+		FROM
+			tb_sys_mod MOD_PROF ,
+			( SELECT
+					PG_PROF.pg_id pg_id ,
+					PG_PROF.pg_name PG_NAME ,
+					PG_PROF.pg_proj_id pg_proj_id ,
+					PG_PROF.seq_no PG_ORDER
+			   FROM tb_sys_pg PG_PROF ,
+				  ( SELECT
+					  ROLE_PG.role_id ,
+
+					  ROLE_PG.pg_id
+				    FROM
+					  tb_sys_role_pg_map ROLE_PG 
+				    WHERE
+				      ROLE_PG.role_id = #{roleId,jdbcType=VARCHAR}
+			       ) A
+			  WHERE
+				A.pg_id = PG_PROF.pg_id
+			) B,
+			(SELECT seq_no, pg_proj_id FROM tb_sys_mod) C
+		WHERE MOD_PROF.pg_proj_id = B.pg_proj_id
+	</select>
+	
+	<!-- 依據 UserId 取得目前平台清單 -->
+	<resultMap id="PlatformData" type="java.util.HashMap">
+		<result column="PLATFORM_CDE" jdbcType="VARCHAR" property="platformCde"/>
+		<result column="PLATFORM_DSCR" jdbcType="VARCHAR" property="platformDscr"/>
+	</resultMap>
+	<select id="selectRolePlatformMap" resultMap="PlatformData">
+		SELECT distinct(A.PLATFORM) PLATFORM_CDE ,
+		       B.DSCR PLATFORM_DSCR
+		  FROM TB_SYS_ROLE_PLATFORM_MAP A,
+		       TB_LOOKUP_CDE B
+		 WHERE B.lookup_type = 'PLATFORM'
+		   AND A.PLATFORM = B.LOOKUP_CDE
+		   AND A.role_id IN (SELECT role_id 
+		   					   FROM TB_SYS_USER_ROLE_MAP 
+		   					   <!-- upper(user_id) = upper(#{userId,jdbcType=VARCHAR})) -->
+							  WHERE user_id = #{userId,jdbcType=VARCHAR})
+	</select>
+	
+	<select id="selectDbTime" resultType="java.lang.String">
+		  select CONVERT(varchar(20), GETDATE(), 111) + ' ' + CONVERT(varchar(20), GETDATE(), 24)
+	</select>
+	
+	<select id="selectDbDate" resultType="java.lang.String">
+		SELECT DATE_FORMAT(SYSDATE(), '%Y/%m/%d') FROM DUAL 
+	</select>
+	
+	<select id="selectDbMonth" resultType="java.lang.String">
+		SELECT DATE_FORMAT(SYSDATE(), '%m') FROM DUAL 
+	</select>
+</mapper>

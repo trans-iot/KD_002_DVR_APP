@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tw.msigDvrBack.manual.PgSsoWtCheckMapper">
+
+	<select id="getEncryptString" resultType="java.lang.String" parameterType="java.lang.String">
+		select RIGHT(sys.fn_varbintohexstr(HASHBYTES('SHA2_256',CONVERT(varchar(64),#{passsword}))),64);
+	</select>
+	
+	<parameterMap id="setUserParam" type="java.util.HashMap">
+		<parameter property="pi_user_id" jdbcType="VARCHAR"	javaType="java.lang.String" mode="IN" />
+		<parameter property="pi_ip_addr" jdbcType="VARCHAR"	javaType="java.lang.String" mode="IN" />
+		<parameter property="pi_os_user" jdbcType="VARCHAR"	javaType="java.lang.String" mode="IN" />
+		<parameter property="pi_machine" jdbcType="VARCHAR"	javaType="java.lang.String" mode="IN" />
+		<parameter property="po_err_cde" jdbcType="VARCHAR"	javaType="java.lang.String" mode="OUT" />
+		<parameter property="po_err_msg" jdbcType="VARCHAR"	javaType="java.lang.String" mode="OUT" />
+	</parameterMap>
+	
+	<resultMap id="varMap" type="java.util.HashMap">
+		<result column="user_id" jdbcType="VARCHAR" property="userId"/>
+		<result column="ip_addr" jdbcType="VARCHAR" property="ipAddr"/>
+	</resultMap>
+		
+	<!-- 
+	/**
+	 * pi_user_id VARCHAR(20), exp:king.huang
+	 * pi_ip_addr VARCHAR(15), exp:192.168.2.60
+	 * pi_os_user VARCHAR(20), exp:Administrator
+	 * pi_machine VARCHAR(64));exp:PC-King
+	 * 設定session 的使用者, 以便trigger使用
+	 **/
+	-->
+ 	<update id="setUser" parameterMap="setUserParam" statementType="CALLABLE">
+		{ call pc_public_set_global_var( #{pi_user_id},#{pi_ip_addr},#{pi_os_user},#{pi_machine} ,#{po_err_cde},#{po_err_msg}) }
+	</update>
+	
+	
+	<select id="getVariable" resultMap="varMap">
+		select @global_var_user_id as user_id, @global_var_ip_addr as ip_addr
+	</select>
+	<resultMap id="varMap2" type="java.util.HashMap">
+		<result column="id" jdbcType="VARCHAR" property="id"/>
+	</resultMap>
+	<select id="executeGetLogonUser" resultMap="varMap2">
+		select @@spid as id
+	</select>
+	
+	<select id="getLogonUser" resultType="java.lang.String">
+		select fn_utl_get_logon_user()
+	</select>
+	
+	<update id="updateLoginErr" parameterType="java.lang.String" statementType="CALLABLE">
+		{ call pc_login_error_record( #{userId} ) }
+	</update>
+</mapper>

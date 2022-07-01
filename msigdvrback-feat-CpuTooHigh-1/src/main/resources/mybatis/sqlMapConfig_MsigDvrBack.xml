@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<mappers>
+		<!-- Table -->
+		
+		
+		<mapper resource="mybatis/msigDvrBack/mapper/TbGfbMsgMapper.xml" />
+		<mapper resource="mybatis/msigDvrBack/mapper/VwNewsMapper.xml" />
+		<mapper resource="mybatis/msigDvrBack/mapper/TbNewsMapper.xml" />
+		<mapper resource="mybatis/msigDvrBack/mapper/TbNewsUserMapper.xml" />
+		
+		
+		<!-- View -->
+		
+		<mapper resource="mybatis/msigDvrBack/manual/VwSysUserMapper.xml" />  
+		
+		<!-- 手動建立清單 -->
+        
+		<mapper resource="mybatis/msigDvrBack/manual/TbCustOpenidMapper.xml" />
+		<mapper resource="mybatis/msigDvrBack/manual/TbSysRolePgMapMapper.xml" />
+		<mapper resource="mybatis/msigDvrBack/manual/TbCustomerManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/PgSsoWtCheckMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/SysAccountMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbLookupCdeManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbLookupTypeManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysModManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysModMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysPgMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysRoleManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysRoleMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysUserMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysUserRoleMapMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbCustUbiApplyMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbWelcomePageManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/VwCustUbiApplyManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbDeviceManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbGfbMsgManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbNewsManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbNewsUserManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/VwNewsuserCustcarManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbCustCarManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbGfbDeviceIdManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSqlManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbSysUserPwdHisManualMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbBatchJobLogMapper.xml" />
+        
+
+        <mapper resource="mybatis/msigDvrBack/manual/VwCustomerMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/VwCustCarMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbDeviceHisMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbDeviceMapper.xml" />
+        <mapper resource="mybatis/msigDvrBack/manual/TbCustSecurityManualMapper.xml" />
+        
+        
+	</mappers>
+</configuration> 

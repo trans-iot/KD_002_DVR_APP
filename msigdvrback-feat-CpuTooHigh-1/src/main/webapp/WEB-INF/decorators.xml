@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/pages/decorators">
+	<excludes>
+	    <!-- 過濾最後會呈現的網址不套用模版 -->
+	    <pattern>*/web/*</pattern>
+        <pattern>*.json*</pattern>
+        <pattern>*.xml*</pattern>
+        <pattern>*.download*</pattern>
+        <pattern>/system/login.html</pattern>
+        <pattern>/system/mainFrame.html</pattern>
+        <pattern>*/blank.jsp</pattern>
+        <pattern>*/403.jsp</pattern>
+        <pattern>*/publicJs.jsp</pattern>
+        <pattern>*/json/*</pattern>
+    </excludes>
+	<decorator name="main" page="decorator.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+</decorators>

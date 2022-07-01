@@ -1,0 +1,138 @@
+
+body, html {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	background: #262626;
+	padding-bottom:-20px;
+}
+
+#main {
+	/*overflow: auto;*/
+	padding-bottom: 0px;
+	height:100%;
+}
+
+#footer {
+    clear:both;
+    height:20px;
+    padding:2px 0;
+    width:100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    font-size:10px;
+    text-align: center;
+    background:url(../images/bg_top.jpg) center;
+    /*margin-top:-20px;*/
+}
+
+#header {
+	height: 45px;
+	display: table;
+	white-space: nowrap;
+	width: 100%;
+	border: 0;
+	cellspacing: 0;
+	cellpadding: 0;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	background-color: #24262D;
+}
+
+#header table {
+	 width: 100%;
+}
+
+#hdWrapper1 {
+	height: 43px;
+	vertical-align:middle;
+	color: white;
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	font-size: 17pt;
+	width:350px;
+	float:left;
+	white-space: nowrap;
+	padding-left: 20px;
+	padding-bottom: 5px;
+}
+
+#hdWrapper1_1 {
+	font-size:16px;
+	font-weight:bold;
+}
+
+#hdWrapper2 {
+	margin-top:0;
+	color: white;
+	font-size: 9pt;
+	text-align: right;
+	padding-right: 10px;
+	float: right;
+}
+
+#mainNav {
+    float: left;
+    width:250px;
+    overflow: auto; 
+    height: 100%; 
+}
+
+#workPathArea {
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#workPath {
+	font-size: 10pt;
+	color: #FFFFFF;
+}
+
+#workAreaFrame {
+	height: 100% - 65px; 
+}
+
+/*Opera Fix*/
+body:before { /* thanks to Maleika (Kohoutec)*/
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px; /* thank you Erik J - negate effect of float*/
+}
+
+#theMenu {
+	border-bottom-color: #393939;
+	border-collapse: separate;
+	border-left-color: #393939;
+	border-right-color: #393939;
+	border-top-color: #393939;
+	
+	vertical-align:middle;
+	display: block;
+	
+	height: 25px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 1px;
+}
+
+.box-top {
+	background: url(../images/topImg.jpg) repeat-x top;
+	margin-top: 0px
+}
+
+.ui_dialog .ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #161613 url(black-theme/images/ui-bg_highlight-soft_75_161613_1x100.png)
+		50% 50% repeat-x;
+	color: #dad8d8;
+	font-weight: bold;
+}
